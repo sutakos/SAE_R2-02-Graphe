@@ -1,4 +1,4 @@
-# SAE_R2-02-Graphe
+# SAE_R2-02-Graphe (groupe 112)
 
 Membres du goupe : 
 - LABLANCHE Lucas
