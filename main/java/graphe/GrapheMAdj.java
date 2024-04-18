@@ -1,7 +1,6 @@
-package graphe;
+package main.java.graphe;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,11 +13,6 @@ public class GrapheMAdj extends Graphe {
         matrice = new int[0][0];
         indices = new HashMap<>();
     }
-
-    public GrapheMAdj(String str) {
-    	this();
-		this.peupler(str);
-	}
 
 	@Override
     public void ajouterSommet(String noeud) {
@@ -34,23 +28,20 @@ public class GrapheMAdj extends Graphe {
         }
     }
 
+    @Override
 	public void ajouterArc(String source, String destination, Integer valeur) {
-		if (!indices.containsKey(source)) {
-	        ajouterSommet(source);
-	    }
-	    if (!indices.containsKey(destination)) {
-	        ajouterSommet(destination);
-	    }
-	    int indexSource = indices.get(source);
-	    int indexDestination = indices.get(destination);
+        if(!indices.containsKey(source))
+            ajouterSommet(source);
 
-	    if (matrice[indexSource][indexDestination] > 0) {
-	        throw new IllegalArgumentException("Un arc existe déjà entre les sommets : " + source + " et " + destination);
-	    }
-	    if (valeur < 0)
-	    	throw new IllegalArgumentException("Les valuations ne doivent pas etre negatives " + valeur);
+        if (!indices.containsKey(destination))
+            ajouterSommet(destination);
 
-	    matrice[indexSource][indexDestination] = valeur;
+        if (matrice[indices.get(source)][indices.get(destination)] != 0 &&
+                indices.containsKey(source) && indices.containsKey(destination) || valeur < 0)
+            throw new IllegalArgumentException("L'arc est déjà présent");
+
+        else
+            matrice[indices.get(source)][indices.get(destination)] = valeur;
 	}
 
 
@@ -70,18 +61,11 @@ public class GrapheMAdj extends Graphe {
 
     @Override
     public void oterArc(String source, String destination) {
-        if (indices.containsKey(source) && indices.containsKey(destination)) {
-            int indexSource = indices.get(source);
-            int indexDestination = indices.get(destination);
-
-            if (matrice[indexSource][indexDestination] == 0) {
-                throw new IllegalArgumentException("Aucun arc n'existe entre les sommets : " + source + " et " + destination);
-            }
-
-            matrice[indexSource][indexDestination] = 0;
-        } else {
-            throw new IllegalArgumentException("Sommet source et/ou sommet de destination introuvable : " + source + ", " + destination);
-        }
+        if(!indices.containsKey(source) || !indices.containsKey(destination) ||
+                matrice[indices.get(source)][indices.get(destination)] == 0)
+            throw new IllegalArgumentException("L'arc n'existe pas");
+        else
+            matrice[indices.get(source)][indices.get(destination)] = 0;
     }
 
     @Override
@@ -101,16 +85,14 @@ public class GrapheMAdj extends Graphe {
 
     @Override
     public List<String> getSommets() {
-    	List<String> vertices = new ArrayList<>(indices.keySet());
-        Collections.sort(vertices);
-        return vertices;
+        List<String> sommets = new ArrayList<>();
+        sommets.addAll(indices.keySet());
+        return sommets;
     }
 
     @Override
     public int getValuation(String src, String dest) {
-        int indexSource = indices.get(src);
-        int indexDestination = indices.get(dest);
-        return matrice[indexSource][indexDestination];
+        return matrice[indices.get(src)][indices.get(dest)];
     }
 
     @Override
@@ -120,9 +102,6 @@ public class GrapheMAdj extends Graphe {
 
     @Override
     public boolean contientArc(String src, String dest) {
-        int indexSource = indices.get(src);
-        int indexDestination = indices.get(dest);
-        return matrice[indexSource][indexDestination] > 0;
+        return matrice[indices.get(src)][indices.get(dest)] > 0;
     }
-
 }
