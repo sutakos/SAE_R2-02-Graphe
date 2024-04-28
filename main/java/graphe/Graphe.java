@@ -1,4 +1,4 @@
-package graphe;
+package main.java.graphe;
 
 
 public abstract class Graphe implements IGraphe {
