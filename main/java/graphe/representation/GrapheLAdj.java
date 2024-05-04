@@ -1,7 +1,7 @@
 package main.java.graphe.representation;
 
-import main.java.graphe.Graphe;
 import main.java.graphe.Arc;
+import main.java.graphe.Graphe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,48 +24,47 @@ public class GrapheLAdj extends Graphe {
     public void ajouterArc(String source, String destination, Integer valeur) {
         if (!contientArc(source, destination) && valeur > 0){
             ajouterSommet(source);
+            ajouterSommet(destination);
 
             Arc arc = new Arc(source, destination, valeur);
             this.liste.get(source).add(arc);
 
             return;
         }
-        throw new IllegalArgumentException("L'arc est déjà présent");
+        throw new IllegalArgumentException("Impossible d'ajouter un arc ici");
     }
 
     @Override
     public void oterSommet(String noeud) {
-        if (contientSommet(noeud)) {
+        if (this.liste.containsKey(noeud)) {
             this.liste.remove(noeud);
 
-            for (String s : this.liste.keySet())
-                for (Arc a : this.liste.get(s))
+            for (String s : this.liste.keySet()) {
+                List<Arc> succ = this.liste.get(s);
+
+                for (Arc a : succ)
                     if (a.getDestination().equals(noeud))
-                        this.liste.get(s).remove(a);
+                        succ.remove(a);
+            }
         }
     }
 
     @Override
     public void oterArc(String source, String destination) {
-        if (contientArc(source, destination))
-            for (Arc a : this.liste.get(source)){
-                if (a.getSource().equals(source) && a.getDestination().equals(destination)) {
-                    this.liste.get(source).remove(a);
-                    return;
-                }
-            }
-        throw new IllegalArgumentException("L'arc n'est pas présent");
+        if (contientArc(source,destination)) {
+            List<Arc> succ = this.liste.get(source);
+            for (Arc a : succ)
+                if (a.getDestination().equals(destination))
+                    succ.remove(a);
+            return;
+        }
+
+        throw new IllegalArgumentException("L'arc n'existe pas");
     }
 
     @Override
     public List<String> getSommets() {
-        List<String> sommets = new ArrayList<>();
-
-        for (String s : this.liste.keySet())
-            if (!sommets.contains(s))
-                sommets.add(s);
-
-        return sommets;
+        return new ArrayList<>(this.liste.keySet());
     }
 
     @Override
@@ -91,18 +90,15 @@ public class GrapheLAdj extends Graphe {
 
     @Override
     public boolean contientSommet(String sommet) {
-        for (Arc a : this.liste.get(sommet))
-            if (a.getSource().equals(sommet))
-                return true;
-
-        return false;
+        return this.liste.containsKey(sommet);
     }
 
     @Override
     public boolean contientArc(String src, String dest) {
-        for (Arc a : this.liste.get(src))
-            if (a.getSource().equals(src) && a.getDestination().equals(dest))
-                return true;
+        if (this.liste.containsKey(src))
+            for (Arc a : this.liste.get(src))
+                if (a.getDestination().equals(dest))
+                    return true;
 
         return false;
     }

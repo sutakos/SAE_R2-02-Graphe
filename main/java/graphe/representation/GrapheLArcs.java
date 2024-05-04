@@ -3,8 +3,8 @@ package main.java.graphe.representation;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.graphe.Graphe;
 import main.java.graphe.Arc;
+import main.java.graphe.Graphe;
 
 public class GrapheLArcs extends Graphe {
     private List<Arc> arcs;
@@ -25,7 +25,7 @@ public class GrapheLArcs extends Graphe {
             arcs.add(new Arc(source, destination, valeur));
             return;
         }
-        throw new IllegalArgumentException("L'arc est déjà présent");
+        throw new IllegalArgumentException("Impossible d'ajouter un arc ici");
     }
 
     @Override
@@ -37,33 +37,33 @@ public class GrapheLArcs extends Graphe {
 
     @Override
     public void oterArc(String source, String destination) {
-        if (contientArc(source, destination))
-            for (Arc a : arcs) {
-                if (a.getSource().equals(source) && a.getDestination().equals(destination)) {
-                    arcs.remove(a);
-                    return;
-                }
+        for (Arc a : arcs) {
+            if (a.getSource().equals(source) && a.getDestination().equals(destination)) {
+                arcs.remove(a);
+                return;
             }
-        throw new IllegalArgumentException("L'arc n'est pas présent");
+        }
+        throw new IllegalArgumentException("L'arc n'existe pas");
     }
 
     @Override
     public List<String> getSommets() {
         List <String> sommets = new ArrayList<>();
-
-        for (Arc a : arcs)
+        for (Arc a : arcs) {
             if (!sommets.contains(a.getSource()))
                 sommets.add(a.getSource());
 
+            if (!sommets.contains(a.getDestination()) && !a.getDestination().equals(""))
+                sommets.add(a.getDestination());
+        }
         return sommets;
     }
 
     @Override
     public List<String> getSucc(String sommet) {
         List<String> succ = new ArrayList<>();
-
         for (Arc a : arcs)
-            if (!succ.contains(a.getDestination()))
+            if (a.getSource().equals(sommet) && !a.getDestination().equals(""))
                 succ.add(a.getDestination());
 
         return succ;
@@ -72,7 +72,7 @@ public class GrapheLArcs extends Graphe {
     @Override
     public int getValuation(String src, String dest) {
         for (Arc a : arcs)
-            if (src.equals(a.getSource()) && dest.equals(a.getDestination()))
+            if (a.getSource().equals(src) && a.getDestination().equals(dest))
                 return a.getValuation();
 
         return -1;
