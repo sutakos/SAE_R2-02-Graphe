@@ -10,7 +10,7 @@ import java.util.Map;
 public class GrapheMAdj extends Graphe {
 	private int[][] matrice;
     private Map<String, Integer> indices;
-    
+
     public GrapheMAdj() {
         matrice = new int[0][0];
         indices = new HashMap<>();
@@ -83,7 +83,6 @@ public class GrapheMAdj extends Graphe {
         }
         return successors;
     }
-
 
     @Override
     public List<String> getSommets() {
