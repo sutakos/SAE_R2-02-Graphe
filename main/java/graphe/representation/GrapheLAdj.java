@@ -1,7 +1,7 @@
 package main.java.graphe.representation;
 
-import main.java.graphe.Arc;
-import main.java.graphe.Graphe;
+import main.java.graphe.graphes.Arc;
+import main.java.graphe.graphes.Graphe;
 
 import java.util.ArrayList;
 import java.util.HashMap;

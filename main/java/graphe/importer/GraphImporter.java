@@ -1,8 +1,8 @@
 package main.java.graphe.importer;
 
 
-import main.java.graphe.Arc;
-import main.java.graphe.IGraphe;
+import main.java.graphe.graphes.Arc;
+import main.java.graphe.graphes.IGraphe;
 
 import java.io.File;
 import java.io.FileNotFoundException;

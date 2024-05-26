@@ -17,7 +17,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import main.java.graphe.*;
+import main.java.graphe.algorithme.Dijkstra;
+import main.java.graphe.graphes.Arc;
+import main.java.graphe.graphes.IGraphe;
+import main.java.graphe.importer.GraphImporter;
 import main.java.graphe.representation.GrapheLAdj;
 import main.java.graphe.representation.GrapheLArcs;
 import main.java.graphe.representation.GrapheMAdj;
@@ -26,7 +29,7 @@ import org.junit.jupiter.api.Test;
 class IGrapheTest {
 	private final IGraphe[] graphes = {
 			new GrapheLArcs(), new GrapheLAdj(),
-			new GrapheMAdj(), new GrapheHHAdj()
+			new GrapheMAdj()
 	};
 	
 	// graphe de l'exercice 3.1 du poly de maths
@@ -128,7 +131,7 @@ class IGrapheTest {
                 Path file1 = iterator1.next();
                 Path file2 = iterator2.next();
 
-                IGraphe g = new GrapheHHAdj(); 
+                IGraphe g = new GrapheMAdj();
                 Arc arc = GraphImporter.importer(file1.toFile(), g);
 
                 List<Integer> listeEntiers = new ArrayList<>();

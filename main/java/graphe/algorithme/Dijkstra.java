@@ -1,6 +1,6 @@
 package main.java.graphe.algorithme;
 
-import main.java.graphe.IGrapheConst;
+import main.java.graphe.graphes.IGrapheConst;
 
 import java.util.*;
 

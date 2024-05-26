@@ -3,8 +3,8 @@ package main.java.graphe.representation;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.graphe.Arc;
-import main.java.graphe.Graphe;
+import main.java.graphe.graphes.Arc;
+import main.java.graphe.graphes.Graphe;
 
 public class GrapheLArcs extends Graphe {
     private List<Arc> arcs;
